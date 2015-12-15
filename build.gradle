@@ -1,3 +1,4 @@
+apply plugin:'java'
 apply plugin: 'groovy'
 sourceSets {
     main {
@@ -10,5 +11,23 @@ sourceSets {
         groovy {
             srcDirs = ['test']
         }
+
     }
 }
+
+repositories {
+    mavenCentral()
+}
+
+dependencies{
+    //groovy lib must be included
+    compile "org.codehaus.groovy:groovy-all:2.4.5"
+    testCompile "org.testng:testng:6.9.9"
+}
+
+test {
+    useTestNG {
+    }
+}
+
+//compileGroovy.groovyClasspath=files('/usr/share/groovy/lib/')

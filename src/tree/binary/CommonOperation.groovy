@@ -4,7 +4,7 @@ class CommonOperation {
     /**
      * the key point for writing codes nice and clean is the concept: "replace node", instead of "left biggest node"
      * suppose node A is the target node to be deleted.
-     * If A has no child, then no replace no.
+     * If A has no child, then no replace node.
      * If A only has left child tree, then the replace node should be A's left child, we don't need to find the left biggest node.
      * If A only has right child tree, then the replace node should be A's right child.
      * If A has both left and right child trees, then the replace node should be A's left biggest node.
@@ -21,11 +21,14 @@ class CommonOperation {
      * @param targetNode
      * @return
      */
-    def Node removeNodeFromTree(Node treeRoot, Node targetNode){
+    def static Node removeNodeFromTree(Node treeRoot, Node targetNode){
         assert treeRoot!=null && targetNode!=null
+        println "func=removeNodeFromTree root=${treeRoot.value} target=${targetNode.value}"
         def (parent, realTargetNode)=find(treeRoot, targetNode)
+        println "func=removeNodeFromTree root=${treeRoot.value} parent=${parent?.value} target=${targetNode.value} "
         Node replaceNode = removeNode(parent, realTargetNode)
         if(parent==null){
+            println "parent is null, so target node is root. value:${targetNode.value}"
             return replaceNode
         }else{
             return treeRoot
@@ -40,7 +43,7 @@ class CommonOperation {
      * @param targetNode
      * @return
      */
-    def Node removeNode(Node parent, Node targetNode){
+    def static Node removeNode(Node parent, Node targetNode){
         /*
          * Key Point:
          * 存在targetNode是root节点的情况
@@ -52,6 +55,7 @@ class CommonOperation {
         }else if(targetNode.right==null){
             replaceNode=targetNode.left
         }else{
+            println "target node is a full node(neither left nor right is null), value:${targetNode.value}"
             /*
              * Key Point
              * 这段代码：与parent node 完全不相关
@@ -59,8 +63,10 @@ class CommonOperation {
              * 这一系列的操作恰恰是removeNodeFromTree()函数
              * 
              * */
-            Node leftLargestNode = findRightMostNode(targetNode.left)
-            replaceNode = removeNodeFromTree(targetNode.left, leftLargestNode)
+            replaceNode = findRightMostNode(targetNode.left)
+            println "find the largest node of its left tree : ${replaceNode.value}"
+            removeNodeFromTree(targetNode.left, replaceNode)
+            println "remove the largest node of its left tree as the replaceNode: ${replaceNode.value}"
             /*
              * Key Point:
              * 左子树可能只有一个节点
@@ -94,7 +100,7 @@ class CommonOperation {
      * @param targetNode
      * @return
      */
-    def find(Node treeRoot, Node targetNode){
+    def static find(Node treeRoot, Node targetNode){
         assert treeRoot!=null && targetNode!=null
         Node parent=null
         Node cursor=treeRoot
@@ -116,7 +122,7 @@ class CommonOperation {
      * @param n
      * @return
      */
-    def Node findRightMostNode(Node n){
+    def static Node findRightMostNode(Node n){
         assert n!=null
         while(n.right!=null){
             n=n.right
