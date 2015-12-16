@@ -16,7 +16,11 @@ class CommonOperation {
                     int count=Thread.currentThread().methodCountInStack(["removeNodeFromTree","removeNode"] as HashSet)
                     1.upto(count){args[0]="..."+args[0]}
                 }
+                /*
+                 * getMetaMethod存在二义性，详见：https://github.com/AndyQu/groovy_pitfall/blob/master/getMetaMethod.groovy
+                 * */
                 def method=LOGGER.metaClass.getMetaMethod(methodName, [String.class, Object[].class] as Object[])
+//                def method=LOGGER.metaClass.getMetaMethod(methodName, args)
                 method.invoke(delegate, (String)args[0], (Object[])args[1..args.length-1])
         }
     }
