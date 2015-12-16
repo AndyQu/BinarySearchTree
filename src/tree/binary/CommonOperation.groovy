@@ -21,7 +21,7 @@ class CommonOperation {
      * @param targetNode
      * @return
      */
-    def static Node removeNodeFromTree(Node treeRoot, Node targetNode){
+    def static Tuple removeNodeFromTree(Node treeRoot, Node targetNode){
         assert treeRoot!=null && targetNode!=null
         println "func=removeNodeFromTree root=${treeRoot.value} target=${targetNode.value}"
         def (parent, realTargetNode)=find(treeRoot, targetNode)
@@ -29,9 +29,9 @@ class CommonOperation {
         Node replaceNode = removeNode(parent, realTargetNode)
         if(parent==null){
             println "parent is null, so target node is root. value:${targetNode.value}"
-            return replaceNode
+            return new Tuple(replaceNode, replaceNode)
         }else{
-            return treeRoot
+            return new Tuple(treeRoot,replaceNode)
         }
     }
 
