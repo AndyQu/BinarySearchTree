@@ -1,6 +1,25 @@
 package tree.binary
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import stack.ThreadUtil
+
 class CommonOperation {
+    def static Logger LOGGER = null
+    static{
+        ThreadUtil.doInject()
+        LOGGER = LoggerFactory.getLogger("bst");
+        LOGGER.metaClass.invokeMethod={
+            String methodName, args->
+                if((['info'] as HashSet).contains(methodName)){
+                    int count=Thread.currentThread().methodCountInStack(["removeNodeFromTree","removeNode"] as HashSet)
+                    1.upto(count){args[0]="..."+args[0]}
+                }
+                def method=LOGGER.metaClass.getMetaMethod(methodName, [String.class, Object[].class] as Object[])
+                method.invoke(delegate, (String)args[0], (Object[])args[1..args.length-1])
+        }
+    }
     /**
      * the key point for writing codes nice and clean is the concept: "replace node", instead of "left biggest node"
      * suppose node A is the target node to be deleted.
@@ -23,14 +42,16 @@ class CommonOperation {
      */
     def static Tuple removeNodeFromTree(Node treeRoot, Node targetNode){
         assert treeRoot!=null && targetNode!=null
-        println "func=removeNodeFromTree root=${treeRoot.value} target=${targetNode.value}"
+        LOGGER.info("event=begin_removeNodeFromTree root={} target={}", treeRoot.value, targetNode.value)
         def (parent, realTargetNode)=find(treeRoot, targetNode)
-        println "func=removeNodeFromTree root=${treeRoot.value} parent=${parent?.value} target=${targetNode.value} "
         Node replaceNode = removeNode(parent, realTargetNode)
         if(parent==null){
-            println "parent is null, so target node is root. value:${targetNode.value}"
+            LOGGER.info("event=end_removeNodeFromTree root={} target={} newRoot={} replaceNode={}",
+                treeRoot.value, targetNode.value, replaceNode?.value, replaceNode?.value);
             return new Tuple(replaceNode, replaceNode)
         }else{
+            LOGGER.info("event=end_removeNodeFromTree root={} target={} newRoot={} replaceNode={}",
+                treeRoot.value, targetNode.value, treeRoot.value, replaceNode?.value);
             return new Tuple(treeRoot,replaceNode)
         }
     }
@@ -55,7 +76,6 @@ class CommonOperation {
         }else if(targetNode.right==null){
             replaceNode=targetNode.left
         }else{
-            println "target node is a full node(neither left nor right is null), value:${targetNode.value}"
             /*
              * Key Point
              * 这段代码：与parent node 完全不相关
@@ -64,9 +84,7 @@ class CommonOperation {
              * 
              * */
             replaceNode = findRightMostNode(targetNode.left)
-            println "find the largest node of its left tree : ${replaceNode.value}"
             removeNodeFromTree(targetNode.left, replaceNode)
-            println "remove the largest node of its left tree as the replaceNode: ${replaceNode.value}"
             /*
              * Key Point:
              * 左子树可能只有一个节点
@@ -106,6 +124,7 @@ class CommonOperation {
         Node cursor=treeRoot
         while(true){
             if(cursor.value==targetNode.value){
+                LOGGER.info("event=found_node_in_tree root={} parent={} target={}", treeRoot.value, parent?.value, cursor.value)
                 return new Tuple(parent,cursor);
             }else if(cursor.value>targetNode.value){
                 parent=cursor
