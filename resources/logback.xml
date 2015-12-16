@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="true">
+	
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+		<encoder>
+			<pattern>[%d{HH:mm:ss.SSS}][%-5level][%logger{0}] - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="infoAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+		<File>/tmp/removeBstNode.log</File>
+		<Append>false</Append>
+		<encoder>
+			<pattern>[%d{HH:mm:ss.SSS}][%-5level][%logger{0}] - %msg%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/tmp/removeBstNode.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+	</appender>
+	<root level="INFO">
+		<appender-ref ref="stdout" />
+		<appender-ref ref="infoAppender" />
+	</root>
+</configuration>
