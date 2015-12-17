@@ -1,0 +1,71 @@
+digraph {
+  A[label=50]
+  B[label=10,fontcolor=red]
+  C[label=5]
+  D[label=20]
+  F[label=120]
+
+  E[label=100]
+  H[label=3]
+  J[label=1]
+  K[label=4]
+
+  A->B
+  A->E
+  B->C
+  B->D
+  E->F
+  C->H
+  H->J
+  H->K
+}
+
+digraph {
+  A[label=50]
+  B[label=10,fontcolor=red]
+  C[label=5]
+  D[label=20]
+  F[label=120]
+
+  E[label=100]
+  H[label=3]
+  J[label=1]
+  K[label=4]
+
+  A->B[style=dashed]
+  A->E
+  B->C[style=dashed]
+  A->C[color=green]
+  B->D[style=dashed]
+  E->F
+  C->H
+  C->D[color=green]
+  H->J
+  H->K
+}
+
+digraph {
+  A[label=50]
+//  B[label=10,fontcolor=red]
+  H[label=3]
+  C[label=5]
+  D[label=20]
+  F[label=120]
+
+  E[label=100]
+  
+  J[label=1]
+  K[label=4]
+
+
+  A->E
+  A->C[color=green]
+
+  E->F
+  
+  C->D[color=green]
+  C->H
+  
+  H->J
+  H->K
+}

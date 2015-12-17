@@ -1,0 +1,31 @@
+digraph {
+    A[label=50]
+    B[label=10]
+    C[label=5]
+    D[label=20]
+    F[label=120]
+
+    E[label=100, fontcolor=red]
+
+    A->B
+    A->E
+    B->C
+    B->D
+    E->F
+}
+
+digraph {
+    A[label=50]
+    B[label=10]
+    C[label=5]
+    D[label=20]
+    F[label=120]
+    E[label=100, fontcolor=red]
+
+    A->B
+    A->E[style=dashed]
+    B->C
+    B->D
+    E->F[style=dashed]
+    A->F
+}
