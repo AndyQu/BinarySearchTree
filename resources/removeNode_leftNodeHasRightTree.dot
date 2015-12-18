@@ -11,6 +11,10 @@ digraph {
   K[label=9]
   M[label=8]
 
+
+  X[label=200]
+  X->A
+
   A->B
   A->E
   B->C
@@ -35,6 +39,9 @@ digraph {
   K[label=9, fontcolor= Brown, style=filled]
   M[label=8]
 
+  X[label=200]
+  X->A
+
   A->B
   A->E
   B->C[style=bold, color=green]
@@ -51,18 +58,24 @@ digraph {
 相同pattern的问题：给定root、target value，删除target node
 */
 digraph {
+  X[label=200]
   A[label=50]
   B[label=10]
-  C[label="5 root", fontcolor=DarkMagenta , style=filled]
-  D[label=20]
   F[label=120]
-
   E[label=100]
-  H[label=7]
-  J[label=6]
-  K[label="9 node to be deleted", fontcolor= Red, style=filled]
-  M[label=8]
 
+  subgraph cluster_level10{
+    label="sub tree. root is 5, the node to be removed is 9"
+    C[label="5 root", fontcolor=DarkMagenta , style=filled]
+    H[label=7]
+    J[label=6]
+    K[label="9 node to be deleted", fontcolor= Red, style=filled]
+    M[label=8]
+  }
+
+  D[label=20]
+  
+  X->A
   A->B
   A->E
   B->C

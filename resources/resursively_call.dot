@@ -1,0 +1,10 @@
+digraph {
+  rankdir=LR;
+  A[label="removeNodeFromTree(Node(200), 10)", shape=box, style=filled ]
+  B[label="removeChildNode(Node(50), Node(10) )", shape=box]
+  C[label="removeNodeFromTree(Node(7), 9)", shape=box, style=filled]
+  
+  A->B
+  B->C[label="recursively call removeNodeFromTree()", color=green]
+  C->B[style=dashed label="9 is removed, returned as replace node, to replace Node 10", color=red]
+}
